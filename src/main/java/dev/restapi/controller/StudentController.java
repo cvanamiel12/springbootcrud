@@ -3,9 +3,9 @@ package dev.restapi.controller;
 import dev.restapi.entity.Student;
 import dev.restapi.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,6 +27,19 @@ public class StudentController {
         Student student = repo.findById(id).get();
 
         return student;
+    }
+
+    @PostMapping("/students/add")
+    @ResponseStatus(code = HttpStatus.CREATED)
+    public void createStudent(@RequestBody Student student) {
+
+        System.out.println("Add student start");
+        repo.save(student);
+
+        ResponseEntity<String> response = ResponseEntity.status(HttpStatus.CREATED)
+                .body("");
+        System.out.println(response.getStatusCode());
+
     }
 
 }
